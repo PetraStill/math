@@ -1,0 +1,34 @@
+import numpy as np
+from scipy import stats
+
+np.random.seed(42)
+
+# Генерація даних для контрольної групи A (старий дизайн)
+# Середнє = 30, відхилення = 15, кількість = 500
+group_a = np.random.normal(30, 15, 500)
+
+# Генерація даних для тестової групи B (новий дизайн)
+# Середнє = 33, відхилення = 15, кількість = 500
+group_b = np.random.normal(33, 15, 500)
+
+# Виконуємо двовибірковий t-test
+t_statistic, p_value = stats.ttest_ind(group_a, group_b)
+
+print("A/B тест: порівняння старого і нового дизайну")
+print(f"\nГрупа A (старий дизайн):")
+print(f"  Середнє: {np.mean(group_a):.2f} хв")
+print(f"  Стандартне відхилення: {np.std(group_a, ddof=1):.2f} хв")
+
+print(f"\nГрупа B (новий дизайн):")
+print(f"  Середнє: {np.mean(group_b):.2f} хв")
+print(f"  Стандартне відхилення: {np.std(group_b, ddof=1):.2f} хв")
+
+print(f"\nРезультати t-тесту:")
+print(f"  Різниця середніх: {np.mean(group_b) - np.mean(group_a):.2f} хв")
+print(f"  t-статистика: {t_statistic:.3f}")
+print(f"  p-value: {p_value:.4f}")
+
+if p_value < 0.05:
+    print("\nВисновок: відкидаємо H₀. Новий дизайн статистично значущо впливає на час.")
+else:
+    print("\nВисновок: не відкидаємо H₀. Немає достатніх доказів впливу.")
